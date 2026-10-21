@@ -1,0 +1,71 @@
+# Лабораторная работа 10 - Вариант 18
+import csv
+
+filename = 'p7_data_18.csv'
+
+with open(filename, 'r', encoding='utf-8') as f:
+    reader = csv.DictReader(f)
+    data = list(reader)
+
+# Приводим числовые поля
+for row in data:
+    row['Price'] = float(row['Price']) if row.get('Price') else 0.0
+    row['Quantity'] = int(row['Quantity']) if row.get('Quantity') else 0
+    row['Discount'] = float(row['Discount']) if row.get('Discount') else 0.0
+
+# 1. Фильтрация: товары с ценой выше средней
+avg_price = sum(r['Price'] for r in data) / len(data)
+filtered = list(filter(lambda r: r['Price'] > avg_price, data))
+print(f"1. Товары с ценой выше средней ({avg_price:.2f}): {len(filtered)} шт.")
+for r in filtered[:5]:
+    print(f"   {r['Name']}: {r['Price']}")
+
+# 2. Сортировка: по цене (убывание)
+sorted_data = sorted(data, key=lambda r: r['Price'], reverse=True)
+print("\n2. Товары по убыванию цены (топ-5):")
+for r in sorted_data[:5]:
+    print(f"   {r['Name']}: {r['Price']}")
+
+# 3. Отображение: название + цена со скидкой
+mapped = list(map(
+    lambda r: (r['Name'], r['Price'] * (1 - r['Discount'] / 100)),
+    data
+))
+print("\n3. Цены со скидкой (первые 5):")
+for name, price in mapped[:5]:
+    print(f"   {name}: {price:.2f}")
+
+# 4. Комбинирование: фильтр + сортировка + отображение
+result = list(map(
+    lambda r: f"{r['Name']} (остаток: {r['Quantity']})",
+    sorted(
+        filter(lambda r: r['Price'] > 100, data),
+        key=lambda r: r['Quantity']
+    )
+))
+print("\n4. Товары дороже 100, отсортированные по остатку:")
+for line in result:
+    print(f"   {line}")
+
+
+
+
+
+
+1. Анонимная функция?
+Функция без имени, создаётся лямбда-выражением.
+
+2. Синтаксис:
+
+lambda арг1, арг2: выражение
+3. Назначение?
+Короткие одноразовые функции для map, filter, sorted, key=....
+
+4. Фильтрация:
+
+filtered = list(filter(lambda x: x > 0, [1, -2, 3, -4]))
+5. Что выведет print(x[1])?
+3.3 (x = [1.1, 3.3, 6.6]).
+
+6. Что выведет filter с int?
+[13, 4, 78] (только целые).
