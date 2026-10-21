@@ -1,0 +1,52 @@
+# Лабораторная работа 8 - Вариант 18
+# Проверка перебором (для наглядности)
+
+count = 0
+examples = []
+
+for n in range(0x10000, 0x100000):  # все 5-значные hex-числа
+    s = format(n, 'X')
+    if len(s) == 5 and s[0] == 'F' and s[4] == 'A' and s.count('3B') == 1:
+        count += 1
+        if len(examples) < 10:
+            examples.append(s)
+
+print(f"Количество чисел: {count}")
+print(f"Примеры: {examples}")
+
+# Комбинаторное объяснение:
+# Случай 1: F 3 B x A — x любая из 16 hex-цифр → 16 чисел
+# Случай 2: F x 3 B A — x любая из 16 hex-цифр → 16 чисел
+# Итого: 32
+
+
+
+
+1. Модуль в Python?
+Файл .py с кодом, подключаемый через import.
+
+2. Сколько модулей можно подключить?
+Неограниченно.
+
+3. Команда подключения?
+import module / from module import x / import module as m.
+
+4. Основные библиотеки Python:
+
+math — математика;
+random — случайные числа;
+os, sys — система;
+datetime — даты;
+re — регулярные выражения;
+csv, json — форматы;
+itertools, functools — функциональные инструменты;
+numpy, pandas, matplotlib — анализ данных.
+5. Функции itertools:
+
+permutations() — перестановки;
+combinations() — сочетания;
+product() — декартово произведение;
+count(), cycle(), repeat() — бесконечные генераторы;
+chain() — объединение итераторов.
+6. Уже известные модули:
+math (sqrt, sin, factorial), random (randint, choice, seed), csv (reader, DictReader).
