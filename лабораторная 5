@@ -1,0 +1,52 @@
+# Лабораторная работа 5 - Вариант 18
+
+with open('pr5_2.txt', 'r') as f:
+    nums = [int(x) for x in f.read().split()]
+
+# Все элементы, заканчивающиеся на 3
+ends_with_3 = [x for x in nums if abs(x) % 10 == 3]
+
+if not ends_with_3:
+    print("Нет элементов, заканчивающихся на 3")
+else:
+    min_ending_3 = min(ends_with_3)
+    threshold = min_ending_3 ** 2
+
+    count = 0
+    max_sq_sum = None
+
+    for i in range(len(nums) - 1):
+        a, b = nums[i], nums[i + 1]
+        a_ends = (abs(a) % 10 == 3)
+        b_ends = (abs(b) % 10 == 3)
+
+        # Ровно один из двух заканчивается на 3
+        if a_ends ^ b_ends:
+            sq_sum = a * a + b * b
+            if sq_sum < threshold:
+                count += 1
+                if max_sq_sum is None or sq_sum > max_sq_sum:
+                    max_sq_sum = sq_sum
+
+    print(f"Количество пар: {count}")
+    print(f"Максимальная сумма квадратов: {max_sq_sum}")
+
+
+1. Что выведет?
+[1, 2, 99, 4, 5].
+
+2. Что выведет?
+[0, 1, 2].
+
+3. Что выведет?
+[10, 10, 10, 10, 10].
+
+4. Как добавить 'Вэнди'?
+names.append('Вэнди') — вариант б, потому что names(0) = ... — синтаксическая ошибка (нужны квадратные скобки и индекс должен существовать).
+
+5. Списковые методы:
+
+index(x) — индекс первого вхождения x;
+insert(i, x) — вставить x на позицию i;
+sort() — сортировка на месте;
+reverse() — разворот на месте.
