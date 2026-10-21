@@ -1,0 +1,86 @@
+# Лабораторная работа 9 - Вариант 18
+import math
+
+class Cube:
+    def __init__(self, a=1.0):
+        self.__a = a  # закрытое поле — ребро куба
+
+    def input_data(self):
+        """Ввод данных с клавиатуры"""
+        while True:
+            try:
+                val = float(input("Введите длину ребра куба: "))
+                if val > 0:
+                    self.__a = val
+                    break
+                else:
+                    print("Ошибка: ребро должно быть положительным")
+            except ValueError:
+                print("Ошибка: введите число")
+
+    def output_data(self):
+        """Вывод информации об объекте"""
+        print(f"Ребро куба: {self.__a:.2f}")
+        print(f"Объём: {self.volume():.2f}")
+        print(f"Площадь поверхности: {self.surface_area():.2f}")
+        print(f"Длина диагонали: {self.diagonal():.2f}")
+
+    def volume(self):
+        return self.__a ** 3
+
+    def surface_area(self):
+        return 6 * self.__a ** 2
+
+    def diagonal(self):
+        return self.__a * math.sqrt(3)
+
+    def __str__(self):
+        return (f"Куб(a={self.__a:.2f}, V={self.volume():.2f}, "
+                f"S={self.surface_area():.2f}, d={self.diagonal():.2f})")
+
+
+if __name__ == "__main__":
+    cube = Cube()
+    cube.input_data()
+    print("\nИнформация о кубе:")
+    cube.output_data()
+    print(f"\nСтроковое представление: {cube}")
+
+
+
+
+
+
+
+1. Класс?
+Шаблон для создания объектов, описывающий их поля (атрибуты) и методы.
+
+2. __init__?
+Конструктор, вызывается при создании объекта; инициализирует поля.
+
+python
+def __init__(self, a): self.a = a
+3. Статические методы vs методы класса?
+@staticmethod — без self/cls, просто функция в пространстве класса.
+@classmethod — получает cls (класс), часто для альтернативных конструкторов.
+
+4. Зачем self?
+Ссылка на конкретный экземпляр, через которую метод обращается к его полям.
+
+5. Сколько __init__ в классе?
+Один (перегрузки нет).
+
+6. Как скрыть атрибут?
+Префикс __ (два подчёркивания): self.__a — name mangling.
+
+7. Задача __str__()?
+Возвращает строковое представление объекта для print() и str().
+
+8. Как вызывается __str__()?
+Автоматически при print(obj) или str(obj).
+
+9. Атрибут экземпляра?
+Переменная, привязанная к конкретному объекту (self.x).
+
+10. Метод-получатель и мутатор?
+Геттер (get_x) — возвращает значение; сеттер (set_x) — изменяет.
