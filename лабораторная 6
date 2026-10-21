@@ -1,0 +1,43 @@
+# Лабораторная работа 6 - Вариант 18
+
+with open('pr6_1.txt', 'r', encoding='utf-8') as f:
+    text = f.read().strip()
+
+count = 0
+for i in range(2, len(text)):
+    if text[i] == 'S' and text[i - 1].isdigit() and text[i - 2].isdigit():
+        count += 1
+
+print(f"Количество букв S, перед которыми две цифры: {count}")
+
+
+
+. Индекс последнего символа строки из 10 символов?
+9 (индексы от 0).
+
+2. Недопустимый индекс?
+IndexError: string index out of range.
+
+3. Длина строки?
+len(s).
+
+4. Что не так с animal(0) = 'л'?
+Скобки круглые (нужны квадратные), и строки неизменяемы.
+
+5. mystring[2:5]?
+cde.
+
+6. mystring[3:]?
+defg.
+
+7. mystring[:3]?
+abc.
+
+8. Оператор in:
+
+if 'd' in mystring:
+    print("Да")
+
+9. Перевод в нижний регистр:
+
+little = big.lower()
