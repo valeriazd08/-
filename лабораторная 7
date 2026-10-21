@@ -1,0 +1,132 @@
+# Лабораторная работа 7 - Вариант 18
+# Загрузка CSV вручную 
+
+F = open('p7_data_18.csv', encoding='utf-8')
+header = F.readline().strip().split(',')
+print("Заголовки:", header)
+
+all_products = []
+
+for line in F:
+    data = line.strip().split(',')
+    if len(data) < len(header):
+        continue  # пропуск битых строк
+    product = {}
+    for i, key in enumerate(header):
+        product[key] = data[i]
+
+    # --- АККУРАТНАЯ КОНВЕРТАЦИЯ ЧИСЛОВЫХ ПОЛЕЙ ---
+    # Отрезаем '$' и '%' если они есть, потом float/int
+    def clean_num(s):
+        return float(s.replace('$', '').replace('%', '').replace(',', '.').strip())
+
+    # Имена столбцов — подставьте фактические из вывода выше:
+    if 'Price' in product:
+        product['Price'] = clean_num(product['Price'])
+    if 'Discount' in product:
+        product['Discount'] = clean_num(product['Discount'])
+    if 'Quantity' in product:
+        product['Quantity'] = int(clean_num(product['Quantity']))
+
+    all_products.append(product)
+
+F.close()
+print(f"Загружено записей: {len(all_products)}")
+print(f"Пример записи: {all_products[0]}")
+
+# 1. Средняя цена с учётом скидки по каждому поставщику
+from collections import defaultdict
+
+sup_prices = defaultdict(list)
+
+for p in all_products:
+    sup = (p.get('Supplier') or '').strip()
+    price_with_disc = p['Price'] * (1 - p['Discount'] / 100)
+    sup_prices[sup].append(price_with_disc)
+
+print("1. Средняя цена со скидкой по поставщикам:")
+for sup, prices in sup_prices.items():
+    name = sup if sup else "(без поставщика)"
+    print(f"   {name}: {sum(prices) / len(prices):.2f}")
+
+# 2. Самый дорогой и самый дешёвый товары
+valid = [p for p in all_products if p.get('Name')]
+if valid:
+    max_item = max(valid, key=lambda p: p['Price'])
+    min_item = min(valid, key=lambda p: p['Price'])
+    print(f"2. Самый дорогой: {max_item['Name']} ({max_item['Price']:.2f})")
+    print(f"   Самый дешёвый: {min_item['Name']} ({min_item['Price']:.2f})")
+
+# 3. По каждой категории — товар с минимальным остатком
+cat_min = {}
+for p in all_products:
+    cat = (p.get('Category') or '').strip()
+    qty = p['Quantity']
+    name = p.get('Name', '')
+    if cat not in cat_min or qty < cat_min[cat][0]:
+        cat_min[cat] = (qty, name)
+
+print("3. Товар с минимальным остатком по категориям:")
+for cat, (qty, name) in cat_min.items():
+    cat_name = cat if cat else "(без категории)"
+    print(f"   {cat_name}: {name} (остаток: {qty})")
+
+# 4. Количество товаров без указания поставщика
+no_supplier = sum(1 for p in all_products if not (p.get('Supplier') or '').strip())
+print(f"4. Товаров без поставщика: {no_supplier}")
+
+
+
+
+
+
+
+
+1. Сумма элементов:
+
+print(sum(p))
+2. Количество элементов:
+print(len(p))
+3. Сумма кратных 7:
+
+print(sum(x for x in p if x % 7 == 0))
+4. Ключи со значением > 45 (только числовые):
+
+print([k for k, v in p.items() if isinstance(v, (int, float)) and v > 45])
+5. Квадраты чисел от 1 до 100:
+
+squares = [x ** 2 for x in range(1, 101)]
+print(squares)
+6. Структура CSV и чтение?
+Текстовый файл, строки — записи, значения через разделитель (обычно ,). Чтение: import csv; csv.reader(f) или csv.DictReader(f).
+
+7. 'старт': 1472 — ключ/значение?
+Ключ — 'старт', значение — 1472.
+
+8. employee['id'] = 54321?
+Добавляет (или перезаписывает) пару 'id': 54321 в словарь.
+
+9. Что выведет?
+www.
+
+10. Как проверить наличие пары?
+
+
+if key in d: …
+11. del inventory[654]?
+Удаляет пару с ключом 654.
+
+12. Что выведет?
+3.
+
+13. Что выведет?
+1, 2, 3 (ключи, каждый с новой строки).
+
+14. pop() и popitem()?
+pop(k) удаляет и возвращает значение по ключу k; popitem() удаляет и возвращает последнюю добавленную пару (k, v).
+
+15. items()?
+Возвращает представление пар (ключ, значение).
+
+16. keys() и values()?
+keys() — ключи, values() — значения.
